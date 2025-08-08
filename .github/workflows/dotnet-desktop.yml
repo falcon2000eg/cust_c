@@ -85,4 +85,15 @@ jobs:
       env:
         Solution_Name: CustomerIssuesManager.sln
 
+    # Publish ready-to-use application
+    - name: Publish application
+      run: dotnet publish CustomerIssuesManager/CustomerIssuesManager.csproj -c Release -r win-x64 --self-contained true -o ./publish
+
+    # Upload published build as artifact
+    - name: Upload published build
+      uses: actions/upload-artifact@v4
+      with:
+        name: PublishedApp
+        path: ./publish
+
   # ...existing code...
