@@ -1,0 +1,66 @@
+﻿<Application x:Class="CustomerIssuesManager.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:CustomerIssuesManager"
+             xmlns:converters="clr-namespace:CustomerIssuesManager.Converters">
+    <Application.Resources>
+        <!-- Converters -->
+        <converters:StatusToColorConverter x:Key="StatusToColorConverter"/>
+        <converters:ColorCodeToBrushConverter x:Key="ColorCodeToBrushConverter"/>
+        
+        <!-- Colors -->
+        <SolidColorBrush x:Key="BgMainBrush" Color="#f8f9fa"/>
+        <SolidColorBrush x:Key="HeaderBrush" Color="#2c3e50"/>
+        <SolidColorBrush x:Key="BorderDarkBrush" Color="#34495e"/>
+        <SolidColorBrush x:Key="TextSubtleBrush" Color="#bdc3c7"/>
+        
+        <!-- Button Styles -->
+        <Style x:Key="SaveButton" TargetType="Button">
+            <Setter Property="Background" Value="#27ae60"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="4" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#229954"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <Style x:Key="DeleteButton" TargetType="Button">
+            <Setter Property="Background" Value="#e74c3c"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="4" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#c0392b"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Application.Resources>
+</Application>

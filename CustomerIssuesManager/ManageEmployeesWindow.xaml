@@ -1,0 +1,186 @@
+<Window x:Class="CustomerIssuesManager.ManageEmployeesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="إدارة الموظفين" 
+        Height="600" Width="800"
+        WindowStartupLocation="CenterOwner"
+        FlowDirection="RightToLeft"
+        Background="#f8f9fa">
+    
+    <Window.Resources>
+        <!-- Colors -->
+        <SolidColorBrush x:Key="BgMain" Color="#f8f9fa"/>
+        <SolidColorBrush x:Key="BgCard" Color="#f0f6fa"/>
+        <SolidColorBrush x:Key="BgLight" Color="#ffffff"/>
+        <SolidColorBrush x:Key="Header" Color="#2c3e50"/>
+        <SolidColorBrush x:Key="HeaderText" Color="White"/>
+        <SolidColorBrush x:Key="ButtonSave" Color="#27ae60"/>
+        <SolidColorBrush x:Key="ButtonDelete" Color="#e74c3c"/>
+        <SolidColorBrush x:Key="ButtonAction" Color="#3498db"/>
+        <SolidColorBrush x:Key="ButtonSecondary" Color="#95a5a6"/>
+        <SolidColorBrush x:Key="TextMain" Color="#222"/>
+        <SolidColorBrush x:Key="TextSubtle" Color="#7f8c8d"/>
+        <SolidColorBrush x:Key="BorderLight" Color="#e0e0e0"/>
+        
+        <!-- Styles -->
+        <Style x:Key="HeaderTextStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{StaticResource HeaderText}"/>
+        </Style>
+        
+        <Style x:Key="NormalTextStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="{StaticResource TextMain}"/>
+        </Style>
+        
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="20,10"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="4" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" 
+                                            VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.8"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource BgCard}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderLight}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+    </Window.Resources>
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock Text="إدارة الموظفين" 
+                       Style="{StaticResource HeaderTextStyle}"
+                       Foreground="{StaticResource Header}"
+                       HorizontalAlignment="Center" 
+                       Margin="0,0,0,10"/>
+            <TextBlock Text="إضافة وتعديل وحذف الموظفين في النظام" 
+                       Style="{StaticResource NormalTextStyle}"
+                       HorizontalAlignment="Center"/>
+        </StackPanel>
+        
+        <!-- Search and Actions -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,15">
+            <TextBox x:Name="SearchTextBox" 
+                     Width="200" 
+                     Margin="0,0,10,0"
+                     TextChanged="SearchTextBox_TextChanged"
+                     ToolTip="البحث في الموظفين"/>
+            <Button Content="إضافة موظف" 
+                    Style="{StaticResource ButtonStyle}"
+                    Background="{StaticResource ButtonSave}"
+                    Margin="0,0,10,0"
+                    Click="AddEmployee_Click"/>
+            <Button Content="تعديل" 
+                    Style="{StaticResource ButtonStyle}"
+                    Background="{StaticResource ButtonAction}"
+                    Margin="0,0,10,0"
+                    Click="EditEmployee_Click"/>
+            <Button Content="حذف" 
+                    Style="{StaticResource ButtonStyle}"
+                    Background="{StaticResource ButtonDelete}"
+                    Margin="0,0,10,0"
+                    Click="DeleteEmployee_Click"/>
+            <Button Content="تحديث" 
+                    Style="{StaticResource ButtonStyle}"
+                    Background="{StaticResource ButtonSecondary}"
+                    Click="RefreshButton_Click"/>
+        </StackPanel>
+        
+        <!-- Employee Form Panel -->
+        <Border Grid.Row="2" 
+                Style="{StaticResource CardStyle}"
+                x:Name="EmployeeFormPanel"
+                Visibility="Collapsed">
+            <StackPanel>
+                <TextBlock Text="تفاصيل الموظف" 
+                           FontSize="14" 
+                           FontWeight="Bold" 
+                           Margin="0,0,0,15"/>
+                
+                <StackPanel>
+                    <Label Content="الاسم:" FontWeight="Bold"/>
+                    <TextBox x:Name="NameTextBox" Margin="0,0,0,10"/>
+                    
+                    <Label Content="المنصب:" FontWeight="Bold"/>
+                    <TextBox x:Name="PositionTextBox" Margin="0,0,0,10"/>
+                    
+                    <Label Content="رقم الأداء:" FontWeight="Bold"/>
+                    <TextBox x:Name="PerformanceNumberTextBox" Margin="0,0,0,15"/>
+                    
+                    <StackPanel Orientation="Horizontal" 
+                                HorizontalAlignment="Right">
+                        <Button x:Name="AddButton"
+                                Content="إضافة" 
+                                Style="{StaticResource ButtonStyle}"
+                                Background="{StaticResource ButtonSave}"
+                                Margin="0,0,10,0"
+                                Click="AddButton_Click"/>
+                        
+                        <Button Content="إلغاء" 
+                                Style="{StaticResource ButtonStyle}"
+                                Background="{StaticResource ButtonSecondary}"
+                                Click="CancelButton_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        
+        <!-- Employees List -->
+        <Border Grid.Row="3" 
+                Style="{StaticResource CardStyle}">
+            <StackPanel>
+                <TextBlock Text="قائمة الموظفين" 
+                           FontSize="14" 
+                           FontWeight="Bold" 
+                           Margin="0,0,0,15"/>
+                
+                <DataGrid x:Name="EmployeesDataGrid"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="True"
+                          SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="الاسم" Binding="{Binding Name}" Width="*"/>
+                        <DataGridTextColumn Header="المنصب" Binding="{Binding Position}" Width="150"/>
+                        <DataGridTextColumn Header="رقم الأداء" Binding="{Binding PerformanceNumber}" Width="120"/>
+                        <DataGridTextColumn Header="الحالة" Binding="{Binding IsActive}" Width="80"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

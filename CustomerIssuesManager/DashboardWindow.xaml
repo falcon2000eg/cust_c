@@ -1,0 +1,306 @@
+<Window x:Class="CustomerIssuesManager.DashboardWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="لوحة التحكم - نظام إدارة مشاكل العملاء" 
+        Height="800" Width="1200"
+        WindowStartupLocation="CenterScreen"
+        FlowDirection="RightToLeft"
+        Background="#f8f9fa">
+    
+    <Window.Resources>
+        <!-- Colors -->
+        <SolidColorBrush x:Key="BgMain" Color="#f8f9fa"/>
+        <SolidColorBrush x:Key="BgCard" Color="#f0f6fa"/>
+        <SolidColorBrush x:Key="BgLight" Color="#ffffff"/>
+        <SolidColorBrush x:Key="Header" Color="#2c3e50"/>
+        <SolidColorBrush x:Key="HeaderText" Color="White"/>
+        <SolidColorBrush x:Key="ButtonSave" Color="#27ae60"/>
+        <SolidColorBrush x:Key="ButtonDelete" Color="#e74c3c"/>
+        <SolidColorBrush x:Key="ButtonAction" Color="#3498db"/>
+        <SolidColorBrush x:Key="ButtonSecondary" Color="#95a5a6"/>
+        <SolidColorBrush x:Key="ButtonWarning" Color="#f39c12"/>
+        <SolidColorBrush x:Key="TextMain" Color="#222"/>
+        <SolidColorBrush x:Key="TextSubtle" Color="#7f8c8d"/>
+        <SolidColorBrush x:Key="BorderLight" Color="#e0e0e0"/>
+        <SolidColorBrush x:Key="Success" Color="#27ae60"/>
+        <SolidColorBrush x:Key="Warning" Color="#f39c12"/>
+        <SolidColorBrush x:Key="Error" Color="#e74c3c"/>
+        <SolidColorBrush x:Key="Info" Color="#3498db"/>
+        
+        <!-- Styles -->
+        <Style x:Key="HeaderTextStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="{StaticResource HeaderText}"/>
+        </Style>
+        
+        <Style x:Key="CardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource BgLight}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderLight}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Margin" Value="10"/>
+        </Style>
+        
+        <Style x:Key="StatCardStyle" TargetType="Border">
+            <Setter Property="Background" Value="{StaticResource BgLight}"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderLight}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="15"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+        
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource ButtonAction}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="4" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#2980b9"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <!-- DataGrid Style -->
+        <Style x:Key="DashboardDataGridStyle" TargetType="DataGrid">
+            <Setter Property="Background" Value="{StaticResource BgLight}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderLight}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="GridLinesVisibility" Value="Horizontal"/>
+            <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource BorderLight}"/>
+            <Setter Property="RowBackground" Value="{StaticResource BgLight}"/>
+            <Setter Property="AlternatingRowBackground" Value="{StaticResource BgCard}"/>
+            <Setter Property="HeadersVisibility" Value="Column"/>
+            <Setter Property="CanUserAddRows" Value="False"/>
+            <Setter Property="CanUserDeleteRows" Value="False"/>
+            <Setter Property="CanUserResizeRows" Value="False"/>
+            <Setter Property="CanUserResizeColumns" Value="True"/>
+            <Setter Property="CanUserSortColumns" Value="True"/>
+            <Setter Property="AutoGenerateColumns" Value="False"/>
+            <Setter Property="SelectionMode" Value="Single"/>
+            <Setter Property="SelectionUnit" Value="FullRow"/>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <Border Grid.Row="0" Background="{StaticResource Header}" Padding="20">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="لوحة التحكم" Style="{StaticResource HeaderTextStyle}"/>
+                    <TextBlock Text="نظام إدارة مشاكل العملاء" Foreground="{StaticResource TextSubtle}" FontSize="14"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button Content="📋 إدارة المشاكل" Click="OpenCasesManagement_Click" Style="{StaticResource ButtonStyle}" Margin="5"/>
+                    <Button Content="🔍 البحث المتقدم" Click="OpenAdvancedSearch_Click" Style="{StaticResource ButtonStyle}" Margin="5"/>
+                    <Button Content="👥 إدارة الموظفين" Click="OpenEmployeeManagement_Click" Style="{StaticResource ButtonStyle}" Margin="5"/>
+                    <Button Content="⚙️ الإعدادات" Click="OpenSettings_Click" Style="{StaticResource ButtonStyle}" Margin="5"/>
+                    <Button Content=" تحديث" Click="RefreshStatistics_Click" Style="{StaticResource ButtonStyle}" Margin="5"/>
+                    <Button Content="❓ مساعدة" Click="Help_Click" Style="{StaticResource ButtonStyle}" Margin="5"/>
+                    <Button Content="ℹ️ حول" Click="About_Click" Style="{StaticResource ButtonStyle}" Margin="5"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+        
+        <!-- Main Content -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="20">
+                <!-- Statistics Cards -->
+                <TextBlock Text="📊 الإحصائيات العامة" FontSize="20" FontWeight="Bold" Margin="0,0,0,20"/>
+                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Total Cases -->
+                    <Border Grid.Column="0" Style="{StaticResource StatCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="إجمالي المشاكل" FontWeight="Bold" FontSize="16"/>
+                            <TextBlock x:Name="TotalCasesLabel" Text="0" FontSize="24" Foreground="{StaticResource Info}"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- New Cases -->
+                    <Border Grid.Column="1" Style="{StaticResource StatCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="المشاكل الجديدة" FontWeight="Bold" FontSize="16"/>
+                            <TextBlock x:Name="NewCasesLabel" Text="0" FontSize="24" Foreground="{StaticResource Info}"/>
+                            <ProgressBar x:Name="NewCasesProgressBar" Height="4" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- In Progress -->
+                    <Border Grid.Column="2" Style="{StaticResource StatCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="قيد التنفيذ" FontWeight="Bold" FontSize="16"/>
+                            <TextBlock x:Name="InProgressLabel" Text="0" FontSize="24" Foreground="{StaticResource Warning}"/>
+                            <ProgressBar x:Name="InProgressProgressBar" Height="4" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Solved -->
+                    <Border Grid.Column="3" Style="{StaticResource StatCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="تم حلها" FontWeight="Bold" FontSize="16"/>
+                            <TextBlock x:Name="SolvedLabel" Text="0" FontSize="24" Foreground="{StaticResource Success}"/>
+                            <ProgressBar x:Name="SolvedProgressBar" Height="4" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                
+                <!-- Additional Statistics -->
+                <Grid Margin="0,20,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <!-- Closed Cases -->
+                    <Border Grid.Column="0" Style="{StaticResource StatCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="مغلقة" FontWeight="Bold" FontSize="16"/>
+                            <TextBlock x:Name="ClosedLabel" Text="0" FontSize="24" Foreground="{StaticResource TextSubtle}"/>
+                            <ProgressBar x:Name="ClosedProgressBar" Height="4" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- Active Cases -->
+                    <Border Grid.Column="1" Style="{StaticResource StatCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="المشاكل النشطة" FontWeight="Bold" FontSize="16"/>
+                            <TextBlock x:Name="ActiveCasesLabel" Text="0" FontSize="24" Foreground="{StaticResource Warning}"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- This Month -->
+                    <Border Grid.Column="2" Style="{StaticResource StatCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="هذا الشهر" FontWeight="Bold" FontSize="16"/>
+                            <TextBlock x:Name="CasesThisMonthLabel" Text="0" FontSize="24" Foreground="{StaticResource Info}"/>
+                        </StackPanel>
+                    </Border>
+                    
+                    <!-- This Year -->
+                    <Border Grid.Column="3" Style="{StaticResource StatCardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="هذا العام" FontWeight="Bold" FontSize="16"/>
+                            <TextBlock x:Name="CasesThisYearLabel" Text="0" FontSize="24" Foreground="{StaticResource Info}"/>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                
+                <!-- Detailed Information -->
+                <TextBlock Text="📈 معلومات تفصيلية" FontSize="20" FontWeight="Bold" Margin="0,30,0,20"/>
+                
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Border Grid.Column="0" Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="المرفقات والمراسلات" FontWeight="Bold" FontSize="16" Margin="0,0,0,15"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="إجمالي المرفقات" FontSize="14"/>
+                                    <TextBlock x:Name="TotalAttachmentsLabel" Text="0" FontSize="20" Foreground="{StaticResource Info}"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="إجمالي المراسلات" FontSize="14"/>
+                                    <TextBlock x:Name="TotalCorrespondencesLabel" Text="0" FontSize="20" Foreground="{StaticResource Info}"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                    
+                    <Border Grid.Column="1" Style="{StaticResource CardStyle}">
+                        <StackPanel>
+                            <TextBlock Text="المؤشرات" FontWeight="Bold" FontSize="16" Margin="0,0,0,15"/>
+                            <StackPanel>
+                                <TextBlock Text="متوسط وقت الحل:" FontSize="14"/>
+                                <TextBlock x:Name="AverageResolutionTimeLabel" Text="غير متوفر" FontSize="16" Foreground="{StaticResource Success}"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,10,0,0">
+                                <TextBlock Text="التصنيف الأكثر شيوعاً:" FontSize="14"/>
+                                <TextBlock x:Name="MostCommonCategoryLabel" Text="غير متوفر" FontSize="16" Foreground="{StaticResource Info}"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,10,0,0">
+                                <TextBlock Text="الموظف الأكثر نشاطاً:" FontSize="14"/>
+                                <TextBlock x:Name="MostActiveEmployeeLabel" Text="غير متوفر" FontSize="16" Foreground="{StaticResource Info}"/>
+                            </StackPanel>
+                            <StackPanel Margin="0,10,0,0">
+                                <TextBlock Text="آخر مشكلة:" FontSize="14"/>
+                                <TextBlock x:Name="LastCaseDateLabel" Text="غير متوفر" FontSize="16" Foreground="{StaticResource TextSubtle}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                
+                <!-- Active Cases Table -->
+                <TextBlock Text="📋 المشاكل النشطة" FontSize="20" FontWeight="Bold" Margin="0,30,0,20"/>
+                
+                <Border Style="{StaticResource CardStyle}">
+                    <StackPanel>
+                        <TextBlock Text="المشاكل التي لم يتم حلها أو إغلاقها" FontSize="14" Foreground="{StaticResource TextSubtle}" Margin="0,0,0,15"/>
+                        <DataGrid x:Name="ActiveCasesDataGrid" 
+                                  Style="{StaticResource DashboardDataGridStyle}"
+                                  Height="300"
+                                  IsReadOnly="True"
+                                  SelectionMode="Single"
+                                  AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="اسم العميل" Binding="{Binding CustomerName}" Width="200"/>
+                                <DataGridTextColumn Header="رقم المشترك" Binding="{Binding SubscriberNumber}" Width="150"/>
+                                <DataGridTextColumn Header="تصنيف المشكلة" Binding="{Binding Category.CategoryName}" Width="150"/>
+                                <DataGridTextColumn Header="حالة المشكلة" Binding="{Binding Status}" Width="120"/>
+                                <DataGridTextColumn Header="تاريخ الإضافة" Binding="{Binding CreatedDate, StringFormat=yyyy/MM/dd}" Width="120"/>
+                                <DataGridTextColumn Header="أنشئ بواسطة" Binding="{Binding CreatedBy.Name}" Width="150"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+                
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

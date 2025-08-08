@@ -1,0 +1,14 @@
+# Ignore build output
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.db
+*.log
+*.vs/
+# Ignore settings and backup files
+settings.json
+Backups/
+# Ignore VS Code settings
+.vscode/

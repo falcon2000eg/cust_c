@@ -1,0 +1,80 @@
+<Window x:Class="CustomerIssuesManager.PrintPreviewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="معاينة الطباعة" 
+        Height="600" Width="800"
+        WindowStartupLocation="CenterScreen"
+        FlowDirection="RightToLeft"
+        Background="#f8f9fa">
+    
+    <Window.Resources>
+        <SolidColorBrush x:Key="BgMain" Color="#f8f9fa"/>
+        <SolidColorBrush x:Key="BgLight" Color="#ffffff"/>
+        <SolidColorBrush x:Key="Header" Color="#2c3e50"/>
+        <SolidColorBrush x:Key="HeaderText" Color="White"/>
+        <SolidColorBrush x:Key="ButtonAction" Color="#3498db"/>
+        <SolidColorBrush x:Key="TextMain" Color="#222"/>
+        <SolidColorBrush x:Key="BorderLight" Color="#e0e0e0"/>
+        
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource ButtonAction}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Padding" Value="15,8"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                CornerRadius="4" 
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#2980b9"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <!-- Header -->
+        <Border Grid.Row="0" Background="{StaticResource Header}" Padding="15">
+            <TextBlock Text="معاينة الطباعة" Foreground="{StaticResource HeaderText}" FontSize="18" FontWeight="Bold"/>
+        </Border>
+        
+        <!-- Content -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="10">
+            <Border Background="{StaticResource BgLight}" Padding="20" CornerRadius="8">
+                <TextBox x:Name="PrintPreviewTextBox" 
+                         FontFamily="Consolas" 
+                         FontSize="12" 
+                         Foreground="{StaticResource TextMain}"
+                         TextWrapping="Wrap"
+                         IsReadOnly="True"
+                         VerticalScrollBarVisibility="Auto"
+                         HorizontalScrollBarVisibility="Auto"/>
+            </Border>
+        </ScrollViewer>
+        
+        <!-- Footer -->
+        <Border Grid.Row="2" Background="{StaticResource BgLight}" Padding="15" BorderBrush="{StaticResource BorderLight}" BorderThickness="0,1,0,0">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="🖨️ طباعة" Click="PrintButton_Click" Style="{StaticResource ButtonStyle}" Margin="5"/>
+                <Button Content="❌ إغلاق" Click="CancelButton_Click" Style="{StaticResource ButtonStyle}" Margin="5"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window> 

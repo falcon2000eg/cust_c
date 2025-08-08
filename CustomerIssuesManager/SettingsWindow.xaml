@@ -1,0 +1,284 @@
+<Window x:Class="CustomerIssuesManager.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="إعدادات النظام" Height="700" Width="800"
+        WindowStartupLocation="CenterScreen"
+        FlowDirection="RightToLeft"
+        Background="#F5F5F5">
+    
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock Text="إعدادات النظام" 
+                       FontSize="24" 
+                       FontWeight="Bold" 
+                       Foreground="#2C3E50"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,10"/>
+            <TextBlock Text="إدارة إعدادات النظام والنسخ الاحتياطية" 
+                       FontSize="14" 
+                       Foreground="#7F8C8D"
+                       HorizontalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Main Content -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                
+                <!-- Import/Export Settings Section -->
+                <GroupBox Header="استيراد/تصدير الإعدادات" 
+                          Margin="0,0,0,20"
+                          BorderBrush="#3498DB"
+                          BorderThickness="2">
+                    <StackPanel Margin="10">
+                        <TextBlock Text="يمكنك تصدير الإعدادات الحالية أو استيراد إعدادات محفوظة مسبقاً"
+                                   FontSize="12"
+                                   Foreground="#7F8C8D"
+                                   Margin="0,0,0,10"
+                                   TextWrapping="Wrap"/>
+                        
+                        <StackPanel Orientation="Horizontal" Margin="0,10">
+                            <Button x:Name="ExportSettingsButton"
+                                    Content="تصدير الإعدادات"
+                                    Width="150"
+                                    Height="35"
+                                    Margin="0,0,10,0"
+                                    Background="#27AE60"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Click="ExportSettings_Click"/>
+                            
+                            <Button x:Name="ImportSettingsButton"
+                                    Content="استيراد الإعدادات"
+                                    Width="150"
+                                    Height="35"
+                                    Background="#E67E22"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Click="ImportSettings_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- Database Settings -->
+                <GroupBox Header="إعدادات قاعدة البيانات" 
+                          Margin="0,0,0,20"
+                          BorderBrush="#E74C3C"
+                          BorderThickness="2">
+                    <StackPanel Margin="10">
+                        <TextBlock Text="مسار قاعدة البيانات:" 
+                                   FontWeight="Bold" 
+                                   Margin="0,0,0,5"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="DatabasePathTextBox" 
+                                     Grid.Column="0"
+                                     IsReadOnly="True"
+                                     Margin="0,0,10,0"/>
+                            <Button x:Name="ChangeDatabasePathButton"
+                                    Grid.Column="1"
+                                    Content="تغيير المسار"
+                                    Width="100"
+                                    Height="30"
+                                    Background="#E74C3C"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Click="ChangeDatabasePath_Click"/>
+                        </Grid>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- Attachment Settings -->
+                <GroupBox Header="إعدادات المرفقات" 
+                          Margin="0,0,0,20"
+                          BorderBrush="#9B59B6"
+                          BorderThickness="2">
+                    <StackPanel Margin="10">
+                        <TextBlock Text="وضع إدارة المرفقات:" 
+                                   FontWeight="Bold" 
+                                   Margin="0,0,0,5"/>
+                        <ComboBox x:Name="AttachmentManagementComboBox"
+                                  Margin="0,0,0,10"
+                                  SelectionChanged="AttachmentManagementComboBox_SelectionChanged">
+                            <ComboBoxItem Content="الاحتفاظ بالملف الأصلي"/>
+                            <ComboBoxItem Content="نقل إلى مجلد مخصص"/>
+                        </ComboBox>
+
+                        <StackPanel x:Name="CustomFolderPanel" 
+                                    Visibility="Collapsed">
+                            <TextBlock Text="المجلد المخصص:" 
+                                       FontWeight="Bold" 
+                                       Margin="0,0,0,5"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="CustomAttachmentsFolderTextBox" 
+                                         Grid.Column="0"
+                                         IsReadOnly="True"
+                                         Margin="0,0,10,0"/>
+                                <Button x:Name="SelectCustomFolderButton"
+                                        Grid.Column="1"
+                                        Content="اختيار مجلد"
+                                        Width="100"
+                                        Height="30"
+                                        Background="#9B59B6"
+                                        Foreground="White"
+                                        BorderThickness="0"
+                                        Click="SelectCustomFolder_Click"/>
+                            </Grid>
+                        </StackPanel>
+
+                        <CheckBox x:Name="OrganizeByDateCheckBox"
+                                  Content="تنظيم المرفقات حسب التاريخ"
+                                  Margin="0,10,0,0"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- Backup Settings -->
+                <GroupBox Header="إعدادات النسخ الاحتياطي" 
+                          Margin="0,0,0,20"
+                          BorderBrush="#F39C12"
+                          BorderThickness="2">
+                    <StackPanel Margin="10">
+                        <CheckBox x:Name="AutoBackupCheckBox"
+                                  Content="النسخ الاحتياطي التلقائي"
+                                  Margin="0,0,0,10"/>
+                        
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                <TextBlock Text="عدد النسخ الاحتياطية:" 
+                                           FontWeight="Bold" 
+                                           Margin="0,0,0,5"/>
+                                <TextBox x:Name="BackupCountTextBox" 
+                                         Text="10"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                <TextBlock Text="فترة الاحتفاظ (أيام):" 
+                                           FontWeight="Bold" 
+                                           Margin="0,0,0,5"/>
+                                <TextBox x:Name="BackupRetentionTextBox" 
+                                         Text="30"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,10">
+                            <Button x:Name="CreateBackupButton"
+                                    Content="إنشاء نسخة احتياطية"
+                                    Width="150"
+                                    Height="35"
+                                    Margin="0,0,10,0"
+                                    Background="#F39C12"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Click="CreateBackup_Click"/>
+                            
+                            <Button x:Name="RestoreBackupButton"
+                                    Content="استعادة نسخة احتياطية"
+                                    Width="150"
+                                    Height="35"
+                                    Background="#E67E22"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Click="RestoreBackup_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- UI Settings -->
+                <GroupBox Header="إعدادات الواجهة" 
+                          Margin="0,0,0,20"
+                          BorderBrush="#1ABC9C"
+                          BorderThickness="2">
+                    <StackPanel Margin="10">
+                        <CheckBox x:Name="DarkModeCheckBox"
+                                  Content="الوضع المظلم"
+                                  Margin="0,0,0,10"/>
+                        
+                        <CheckBox x:Name="ShowNotificationsCheckBox"
+                                  Content="إظهار الإشعارات"
+                                  Margin="0,0,0,10"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <!-- Storage Management -->
+                <GroupBox Header="إدارة التخزين" 
+                          Margin="0,0,0,20"
+                          BorderBrush="#34495E"
+                          BorderThickness="2">
+                    <StackPanel Margin="10">
+                        <StackPanel Orientation="Horizontal" Margin="0,10">
+                            <Button x:Name="ShowStorageInfoButton"
+                                    Content="معلومات التخزين"
+                                    Width="150"
+                                    Height="35"
+                                    Margin="0,0,10,0"
+                                    Background="#34495E"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Click="ShowStorageInfo_Click"/>
+                            
+                            <Button x:Name="CleanupFilesButton"
+                                    Content="تنظيف الملفات"
+                                    Width="150"
+                                    Height="35"
+                                    Background="#E74C3C"
+                                    Foreground="White"
+                                    BorderThickness="0"
+                                    Click="CleanupFiles_Click"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Action Buttons -->
+        <StackPanel Grid.Row="2" 
+                    Orientation="Horizontal" 
+                    HorizontalAlignment="Center"
+                    Margin="0,20,0,0">
+            <Button x:Name="SaveSettingsButton"
+                    Content="حفظ الإعدادات"
+                    Width="120"
+                    Height="40"
+                    Margin="0,0,10,0"
+                    Background="#27AE60"
+                    Foreground="White"
+                    BorderThickness="0"
+                    Click="SaveSettings_Click"/>
+            
+            <Button x:Name="ResetSettingsButton"
+                    Content="إعادة تعيين"
+                    Width="120"
+                    Height="40"
+                    Margin="0,0,10,0"
+                    Background="#E74C3C"
+                    Foreground="White"
+                    BorderThickness="0"
+                    Click="ResetSettings_Click"/>
+            
+            <Button x:Name="CancelButton"
+                    Content="إلغاء"
+                    Width="120"
+                    Height="40"
+                    Background="#95A5A6"
+                    Foreground="White"
+                    BorderThickness="0"
+                    Click="Cancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
