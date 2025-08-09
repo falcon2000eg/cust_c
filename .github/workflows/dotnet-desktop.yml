@@ -90,10 +90,10 @@ jobs:
       run: dotnet publish CustomerIssuesManager/CustomerIssuesManager.csproj -c Release -r win-x64 --self-contained true -o ./publish
 
     # Upload published build as artifact
-    - name: Upload published build
+    -     - name: Upload published build
       uses: actions/upload-artifact@v4
       with:
-        name: PublishedApp
+        name: PublishedApp-${{ github.run_id }}
         path: ./publish
 
   # ...existing code...
