@@ -12,3 +12,9 @@ settings.json
 Backups/
 # Ignore VS Code settings
 .vscode/
+
+# Ignore publish artifacts and generated files
+publish/
+*.deps.json
+*.runtimeconfig.json
+*.pdb

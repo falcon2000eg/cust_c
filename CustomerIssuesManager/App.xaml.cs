@@ -126,8 +126,7 @@ private void App_DispatcherUnhandledException(object sender, DispatcherUnhandled
 
     protected override async void OnStartup(StartupEventArgs e)
     {
-
-        this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+    // ...existing code...
         try
         {
             base.OnStartup(e);
